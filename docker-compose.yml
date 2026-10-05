@@ -1,0 +1,19 @@
+services:
+  treinamento:
+    build: ./src/models/treinamento
+    volumes:
+      - ./data:/data:ro      
+      - modelo:/models        
+
+  interferencia:
+    build: ./src/models/interferencia
+    ports:
+      - "8000:8000"
+    volumes:
+      - modelo:/models:ro      
+    depends_on:
+      treinamento:
+        condition: service_completed_successfully   
+
+volumes:
+  modelo:
